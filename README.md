@@ -47,19 +47,71 @@ Press **Space** on the start screen to begin.
 
 ## Setup
 
-### 1. Install Node.js
+This guide assumes you have never used a terminal before. Every step below is copy-paste.
 
-Install Node.js (version 20 or newer) from the terminal. `npm` is included with Node.
+Open your terminal first:
+- **macOS**: press `Cmd + Space`, type `Terminal`, press Enter.
+- **Windows**: press the Windows key, type `PowerShell`, press Enter.
+- **Linux**: open your Terminal app from the applications menu.
+
+### 1. Make a folder to hold everything
+
+We'll put the game and all its tools in one folder called `kanyouku-game` inside your home directory. If you ever want to remove this project, you can just delete this one folder.
+
+**macOS / Linux**:
+```bash
+mkdir -p ~/kanyouku-game
+cd ~/kanyouku-game
+```
+
+**Windows (PowerShell)**:
+```powershell
+mkdir $HOME\kanyouku-game
+cd $HOME\kanyouku-game
+```
+
+From here on, run every command inside this folder (your terminal prompt should show `kanyouku-game`).
+
+### 2. Install Git
+
+Git is the tool used to download the project code.
+
+**macOS** (using Homebrew — if you don't have Homebrew, install it from [brew.sh](https://brew.sh) first):
+```bash
+brew install git
+```
+
+**Windows** (using winget in PowerShell):
+```powershell
+winget install --id Git.Git -e
+```
+After this finishes, **close and reopen PowerShell** so the `git` command becomes available.
+
+**Linux (Ubuntu / Debian)**:
+```bash
+sudo apt-get update
+sudo apt-get install -y git
+```
+
+Verify:
+```bash
+git --version
+```
+
+### 3. Install Node.js
+
+Node.js runs the game. `npm` (used to install the project's parts) comes with it. Use version 20 or newer.
 
 **macOS** (using Homebrew):
 ```bash
 brew install node
 ```
 
-**Windows** (using winget in Command Prompt or PowerShell):
-```bash
+**Windows** (using winget in PowerShell):
+```powershell
 winget install OpenJS.NodeJS.LTS
 ```
+After this finishes, **close and reopen PowerShell**.
 
 **Linux (Ubuntu / Debian)**:
 ```bash
@@ -67,32 +119,53 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-Verify the install:
+Verify:
 ```bash
 node --version
 npm --version
 ```
 
-### 2. Clone the repo
+### 4. Download the game
+
+Make sure you are still inside `kanyouku-game` (run `cd ~/kanyouku-game` on macOS/Linux or `cd $HOME\kanyouku-game` on Windows if not). Then:
 
 ```bash
 git clone https://github.com/shuton-gif/SLS318-Escape-Rooms.git
 cd SLS318-Escape-Rooms
 ```
 
-### 3. Install dependencies
+### 5. Install the game's parts
 
 ```bash
 npm install
 ```
+This can take a couple of minutes. It's normal to see a lot of text scrolling.
 
-### 4. Run the dev server
+### 6. Run the game
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Once you see a message like `ready - started server on http://localhost:3000`, open [http://localhost:3000](http://localhost:3000) in your web browser.
+
+To stop the game, go back to the terminal and press `Ctrl + C`.
+
+### Uninstall
+
+Close the game (`Ctrl + C` in the terminal), then delete the whole folder:
+
+**macOS / Linux**:
+```bash
+rm -rf ~/kanyouku-game
+```
+
+**Windows (PowerShell)**:
+```powershell
+Remove-Item -Recurse -Force $HOME\kanyouku-game
+```
+
+(Node.js and Git will stay installed — you can remove them separately through your package manager if you want.)
 
 ## Tech stack
 
