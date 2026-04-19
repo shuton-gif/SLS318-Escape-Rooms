@@ -1,0 +1,72 @@
+[
+  {
+    "stageNumber": 1,
+    "situation": "秘密の計画が敵にバレそうになっている。情報を隠さなければ！",
+    "english": "A secret plan is about to be exposed to the enemy. We must hide the information!",
+    "hint": "put a door on your mouth",
+    "completedKanyouku": "口に{戸を立てる}",
+    "explanation": "口に戸を立てる (kuchi ni to wo tateru) = 秘密を守る、口外しないようにする",
+    "englishExplanation": "to keep a secret, to not let something slip out",
+    "roles": {
+      "S": "口に",
+      "O": "戸を",
+      "V": "立てる"
+    }
+  },
+  {
+    "stageNumber": 2,
+    "situation": "仲間が危険な罠にかかってしまった。すぐに助け出さないと！",
+    "english": "A companion got caught in a dangerous trap. We have to rescue them right away!",
+    "hint": "pull their hand",
+    "completedKanyouku": "仲間の{手を引く}",
+    "explanation": "手を引く (te wo hiku) = 援助する、助け出す",
+    "englishExplanation": "to lend assistance, to pull someone out of trouble",
+    "roles": {
+      "S": "仲間の",
+      "O": "手を",
+      "V": "引く"
+    }
+  },
+  {
+    "stageNumber": 3,
+    "situation": "敵が大勢押し寄せてきた。全員で力を合わせて戦うしかない！",
+    "english": "A horde of enemies is closing in. We have no choice but to fight together!",
+    "hint": "line up shoulders",
+    "completedKanyouku": "全員で{肩を並べる}",
+    "explanation": "肩を並べる (kata wo naraberu) = 協力する、共に戦う",
+    "englishExplanation": "to cooperate, to fight side by side",
+    "roles": {
+      "S": "全員で",
+      "O": "肩を",
+      "V": "並べる"
+    }
+  },
+  {
+    "stageNumber": 4,
+    "situation": "ボスが弱点を見せた。今がチャンス、一気に決着をつけよう！",
+    "english": "The boss just showed a weakness. This is our chance — let's finish it!",
+    "hint": "attach a kick",
+    "completedKanyouku": "ボスに{けりをつける}",
+    "explanation": "けりをつける (keri wo tsukeru) = 決着をつける、終わりにする",
+    "englishExplanation": "to settle things, to bring something to an end",
+    "roles": {
+      "S": "ボスに",
+      "O": "けりを",
+      "V": "つける"
+    }
+  },
+  {
+    "stageNumber": "tutorial",
+    "situation": "謎の商人が怪しい取引を持ちかけてきた。騙されないように注意しよう！",
+    "english": "A mysterious merchant is proposing a shady deal. Be careful not to get fooled!",
+    "hint": "look at their feet",
+    "completedKanyouku": "商人の{足元を見る}",
+    "explanation": "足元を見る (ashimoto wo miru) = 相手の弱みにつけこむ（警戒が必要）",
+    "englishExplanation": "to take advantage of someone's weakness (stay on guard)",
+    "roles": {
+      "S": "商人の",
+      "O": "足元を",
+      "V": "見る"
+    }
+  }
+]

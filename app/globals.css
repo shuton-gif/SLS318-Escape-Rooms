@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'EnglishPixelFont';
+    src: url('/EnglishPixelFont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'JapanesePF';
+    src: url('/JapanesePF.ttf') format('truetype');
+}
