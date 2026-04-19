@@ -64,7 +64,7 @@
     "explanation": "足元を見る (ashimoto wo miru) = 相手の弱みにつけこむ（警戒が必要）",
     "englishExplanation": "to take advantage of someone's weakness (stay on guard)",
     "roles": {
-      "S": "商人の",
+      "S": "〜の",
       "O": "足元を",
       "V": "見る"
     }

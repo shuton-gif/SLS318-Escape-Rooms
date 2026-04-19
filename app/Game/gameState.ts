@@ -73,7 +73,7 @@ export const THROW_VY = -14
 export const BOX = {
     X: 1240,
     BASE_HEIGHT: 150,
-    RIM_WIDTH: 250,
+    RIM_WIDTH: 150,
     UPRIGHT_HEIGHT: 50,
     BAR_THICKNESS: 8,
     HIT_RADIUS: 60,
