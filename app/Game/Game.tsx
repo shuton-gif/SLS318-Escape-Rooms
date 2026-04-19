@@ -85,6 +85,14 @@ export default function Game() {
     const [stageIndex, setStageIndex] = useState(0)
     const [gameState, setGameState] = useState<GameState>(() => initState())
     const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set())
+    const [showHint, setShowHint] = useState(false)
+
+    useEffect(() => {
+        if (gameState.sceneState.phase !== 'tutorial' && gameState.sceneState.phase !== 'playing') return
+        setShowHint(false)
+        const t = setTimeout(() => setShowHint(true), 15000)
+        return () => clearTimeout(t)
+    }, [gameState.sceneState.phase, stageIndex])
 
     const phase = gameState.sceneState.phase
     const stage = phase === 'tutorial' ? tutorialStage : stages[stageIndex]
@@ -438,7 +446,7 @@ export default function Game() {
                     <div style={{ position: 'absolute', top: 45, left: 20, right: 20, fontSize: '1.25rem', color: '#333', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                         <span style={{ fontSize: '2.5rem' }}>{stage.situation}</span>
                         <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.english}</span>
-                        <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>
+                        {showHint && <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>}
                     </div>
                     <div style={{ position: 'absolute', top: 275, left: 500, right: 20, fontSize: '5rem', color: '#333'}}>
                         {ROLES.map((role) => (
