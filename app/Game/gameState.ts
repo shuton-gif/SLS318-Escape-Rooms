@@ -71,9 +71,9 @@ export const THROW_VY = -14
 
 // Football-goal-shaped box
 export const BOX = {
-    X: 1240,
+    X: 1350,
     BASE_HEIGHT: 150,
-    RIM_WIDTH: 150,
+    RIM_WIDTH: 200,
     UPRIGHT_HEIGHT: 50,
     BAR_THICKNESS: 8,
     HIT_RADIUS: 60,

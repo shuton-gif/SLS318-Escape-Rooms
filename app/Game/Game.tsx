@@ -36,20 +36,21 @@ const tutorialStage = allStages.find((s) => s.stageNumber === 'tutorial')!
 const stages = allStages.filter((s) => typeof s.stageNumber === 'number')
 
 // Scene bounds (same as player clamp)
-const SCENE_MAX_X = 1400
+const SCENE_MAX_X = 1450
 
 function buildPieces(stage: StageData, allStages: StageData[]): Piece[] {
     let id = 0
     const pieces: Piece[] = []
     for (const role of ROLES) {
         const correct = toArray(stage.roles[role])
-        if (correct.length === 0) continue
         const decoyPool = allStages
             .filter((s) => s.stageNumber !== stage.stageNumber)
             .flatMap((s) => toArray(s.roles[role]))
             .filter((w) => !correct.includes(w))
-        const decoys = shuffle(Array.from(new Set(decoyPool))).slice(0, 2)
+        const decoyCount = correct.length === 0 ? 3 : 2
+        const decoys = shuffle(Array.from(new Set(decoyPool))).slice(0, decoyCount)
         const words = shuffle([...correct, ...decoys])
+        if (words.length === 0) continue
         for (const word of words) {
             pieces.push({
                 id: id++, word, type: role,
@@ -58,6 +59,9 @@ function buildPieces(stage: StageData, allStages: StageData[]): Piece[] {
                 state: 'onGround',
             })
         }
+        console.log("correct" + `${correct}`)
+        // console.log("wrong" + `${decoyPool}`)
+        console.log("wrong" + `${decoys}`)
     }
     const shuffled = shuffle(pieces)
     const start = 120
@@ -458,16 +462,16 @@ export default function Game() {
             <div className={styles.gameScene}>
                 <div className={styles.BG}>
                     <div style={{ position: 'absolute', top: 10, left: 20, right: 20, fontSize: '3rem', color: '#333', display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                        <span>問題 {stage.stageNumber}:</span>
+                        {gameState.sceneState.phase == 'tutorial' ? <span style={{fontSize: '4.5rem'}}>Tutorial </span>: <span style={{fontSize: '4rem'}}>問題:<span style={{fontSize: '3.5rem'}}>{stage.stageNumber}</span></span>}
                         <span style={{ fontSize: '1.25rem' }}>{formatTime(gameState.sceneState.timer)}</span>
                     </div>
-                    <div style={{ position: 'absolute', top: 65, left: 20, right: 20, fontSize: '1.25rem', color: '#333', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                    <div style={{ position: 'absolute', top: 90, left: 20, right: 20, fontSize: '1.25rem', color: '#333', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                         <span style={{ fontSize: '2.5rem' }}>{stage.situation}</span>
                         <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.english}</span>
                         {showHint && <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>}
                     </div>
                     <div style={{ position: 'absolute', top: 275, left: 500, right: 20, fontSize: '5rem', color: '#333', display: 'flex', gap: '1rem' }}>
-                        {ROLES.flatMap((role) => {
+                        {ROLES.flatMap((role) => { 
                             const target = toArray(stage.roles[role])
                             if (target.length === 0) return []
                             return target.map((_, i) => (

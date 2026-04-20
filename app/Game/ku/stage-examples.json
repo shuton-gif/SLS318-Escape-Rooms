@@ -56,7 +56,7 @@
     }
   },
   {
-    "stageNumber": 4,
+    "stageNumber": "4",
     "situation": "決勝戦、両チームの実力は互角。まさに＿＿＿の勝負だ！",
     "english": "The final match — both teams are evenly matched. It's truly a ___ battle!",
     "hint": "tiger, dragon",
@@ -66,7 +66,8 @@
     "roles": {
       "S": "竜虎",
       "O": null,
-      "V": ["相", "打つ"]
+      "V": ["相打つ"]
     }
   }
 ]
+

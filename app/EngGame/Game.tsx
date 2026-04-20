@@ -11,7 +11,7 @@ import stagesData from './ku/stage-examples.json'
 
 type RoleField = string | string[] | null | undefined
 
-type StageData = {
+type engStageData = {
     stageNumber: number | string
     situation: string
     japanese: string
@@ -31,14 +31,14 @@ function fillSituation(situation: string, kanyouku: string): string {
     return situation.replace(/＿＿＿|___/g, kanyouku)
 }
 
-const allStages = stagesData as StageData[]
+const allStages = stagesData as engStageData[]
 const tutorialStage = allStages.find((s) => s.stageNumber === 'tutorial')!
 const stages = allStages.filter((s) => typeof s.stageNumber === 'number')
 
 // Scene bounds (same as player clamp)
 const SCENE_MAX_X = 1400
 
-function buildPieces(stage: StageData, allStages: StageData[]): Piece[] {
+function buildPieces(stage: engStageData, allStages: engStageData[]): Piece[] {
     let id = 0
     const pieces: Piece[] = []
     for (const role of ROLES) {
@@ -143,7 +143,7 @@ export default function Game() {
         const allRight = ROLES.every((r) => {
             const target = toArray(stage.roles[r])
             const sub = gameState.submittedSlots[r]
-            return sub.length === target.length && sub.every((w, i) => w === target[i])
+            return sub?.length === target.length && sub.every((w, i) => w === target[i])
         })
         if (!allRight) return
         const t = setTimeout(() => {
@@ -466,8 +466,8 @@ export default function Game() {
                         <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.japanese}</span>
                         {showHint && <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>}
                     </div>
-                    <div style={{ position: 'absolute', top: 275, left: 500, right: 20, fontSize: '5rem', color: '#333', display: 'flex', gap: '1rem' }}>
-                        {ROLES.flatMap((role) => {
+                    <div style={{ position: 'absolute', top: 275, left: 500, right: 20, fontSize: '2.5rem', color: '#333', display: 'flex', gap: '1rem' }}>
+                        {(['S', 'V', 'O'] as Role[]).flatMap((role) => {
                             const target = toArray(stage.roles[role])
                             if (target.length === 0) return []
                             return target.map((_, i) => (
