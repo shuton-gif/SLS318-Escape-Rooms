@@ -1,5 +1,5 @@
 import Game from './Game'
 
-export default function GamePage() {
+export default function EngGamePage() {
     return <Game />
 }

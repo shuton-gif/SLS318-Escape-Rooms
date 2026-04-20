@@ -1,72 +1,72 @@
 [
   {
-    "stageNumber": 1,
-    "situation": "秘密の計画が敵にバレそうになっている。情報を隠さなければ！",
-    "english": "A secret plan is about to be exposed to the enemy. We must hide the information!",
-    "hint": "put a door on your mouth",
-    "completedKanyouku": "口に{戸を立てる}",
-    "explanation": "口に戸を立てる (kuchi ni to wo tateru) = 秘密を守る、口外しないようにする",
-    "englishExplanation": "to keep a secret, to not let something slip out",
+    "stageNumber": "tutorial",
+    "situation": "犬のかき氷屋はてんてこ舞いだ。まさに＿＿＿！",
+    "english": "The dog's shave ice shop is swamped, ___!",
+    "hint": "cat",
+    "completedKanyouku": "猫の手も借りたい",
+    "explanation": "猫の手も借りたい (neko no te mo karitai) = どんな微力でも助けが欲しいほど忙しい",
+    "englishExplanation": "to be so busy you'd even take help from a cat (any help at all)",
     "roles": {
-      "S": "口に",
-      "O": "戸を",
-      "V": "立てる"
+      "S": "猫の",
+      "O": "手も",
+      "V": "借りたい"
+    }
+  },
+  {
+    "stageNumber": 1,
+    "situation": "町を散歩していた犬が、偶然にも宝の地図を見つけた。これはまさに＿＿＿だね！",
+    "english": "A dog taking a walk around town happened to find a treasure map. This is truly ___!",
+    "hint": "dog, stick",
+    "completedKanyouku": "犬も歩けば棒に当たる",
+    "explanation": "犬も歩けば棒に当たる (inu mo arukeba bou ni ataru) = 行動すれば思わぬ幸運（または災難）に出会う",
+    "englishExplanation": "even a dog that walks around will bump into a stick — action brings unexpected luck (or trouble)",
+    "roles": {
+      "S": ["犬も", "棒に"],
+      "O": null,
+      "V": ["歩けば", "当たる"]
     }
   },
   {
     "stageNumber": 2,
-    "situation": "仲間が危険な罠にかかってしまった。すぐに助け出さないと！",
-    "english": "A companion got caught in a dangerous trap. We have to rescue them right away!",
-    "hint": "pull their hand",
-    "completedKanyouku": "仲間の{手を引く}",
-    "explanation": "手を引く (te wo hiku) = 援助する、助け出す",
-    "englishExplanation": "to lend assistance, to pull someone out of trouble",
+    "situation": "今月のお小遣いはたったの100円…これじゃあ＿＿＿ほどしかないよ！",
+    "english": "This month's allowance is only 100 yen... that's barely ___!",
+    "hint": "sparrow",
+    "completedKanyouku": "スズメの涙",
+    "explanation": "スズメの涙 (suzume no namida) = ほんのわずかな量",
+    "englishExplanation": "a sparrow's tears — an extremely small amount",
     "roles": {
-      "S": "仲間の",
-      "O": "手を",
-      "V": "引く"
+      "S": "スズメの",
+      "O": "涙",
+      "V": null
     }
   },
   {
     "stageNumber": 3,
-    "situation": "敵が大勢押し寄せてきた。全員で力を合わせて戦うしかない！",
-    "english": "A horde of enemies is closing in. We have no choice but to fight together!",
-    "hint": "line up shoulders",
-    "completedKanyouku": "全員で{肩を並べる}",
-    "explanation": "肩を並べる (kata wo naraberu) = 協力する、共に戦う",
-    "englishExplanation": "to cooperate, to fight side by side",
+    "situation": "料理人を目指す少年に、プロの料理を見せても意味がない。まさに＿＿＿だ！",
+    "english": "Showing professional cuisine to a boy just starting out as a chef is pointless. It's truly ___!",
+    "hint": "cat, gold coins",
+    "completedKanyouku": "猫に小判",
+    "explanation": "猫に小判 (neko ni koban) = 価値のわからない者に貴重なものを与えても無駄なこと",
+    "englishExplanation": "gold coins to a cat — giving something valuable to someone who can't appreciate it",
     "roles": {
-      "S": "全員で",
-      "O": "肩を",
-      "V": "並べる"
+      "S": "猫に",
+      "O": "小判",
+      "V": null
     }
   },
   {
     "stageNumber": 4,
-    "situation": "ボスが弱点を見せた。今がチャンス、一気に決着をつけよう！",
-    "english": "The boss just showed a weakness. This is our chance — let's finish it!",
-    "hint": "attach a kick",
-    "completedKanyouku": "ボスに{けりをつける}",
-    "explanation": "けりをつける (keri wo tsukeru) = 決着をつける、終わりにする",
-    "englishExplanation": "to settle things, to bring something to an end",
+    "situation": "決勝戦、両チームの実力は互角。まさに＿＿＿の勝負だ！",
+    "english": "The final match — both teams are evenly matched. It's truly a ___ battle!",
+    "hint": "tiger, dragon",
+    "completedKanyouku": "竜虎相打つ",
+    "explanation": "竜虎相打つ (ryuuko ai utsu) = 実力の伯仲した強者同士が激しく戦うこと",
+    "englishExplanation": "dragon and tiger clash — two equally powerful rivals in fierce combat",
     "roles": {
-      "S": "ボスに",
-      "O": "けりを",
-      "V": "つける"
-    }
-  },
-  {
-    "stageNumber": "tutorial",
-    "situation": "謎の商人が怪しい取引を持ちかけてきた。騙されないように注意しよう！",
-    "english": "A mysterious merchant is proposing a shady deal. Be careful not to get fooled!",
-    "hint": "look at their feet",
-    "completedKanyouku": "商人の{足元を見る}",
-    "explanation": "足元を見る (ashimoto wo miru) = 相手の弱みにつけこむ（警戒が必要）",
-    "englishExplanation": "to take advantage of someone's weakness (stay on guard)",
-    "roles": {
-      "S": "〜の",
-      "O": "足元を",
-      "V": "見る"
+      "S": "竜虎",
+      "O": null,
+      "V": ["相", "打つ"]
     }
   }
 ]

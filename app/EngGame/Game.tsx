@@ -14,11 +14,11 @@ type RoleField = string | string[] | null | undefined
 type StageData = {
     stageNumber: number | string
     situation: string
-    english: string
+    japanese: string
     hint: string
-    completedKanyouku: string
+    completedIdiom: string
     explanation: string
-    englishExplanation: string
+    japaneseExplanation: string
     roles: { S?: RoleField; O?: RoleField; V?: RoleField }
 }
 
@@ -435,9 +435,9 @@ export default function Game() {
             <div className={styles.gameContainer}>
                 <div className={styles.gameScene} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '5rem', backgroundColor: '#2ecc71', color: 'white' }}>
                     <div>Correct!!</div>
-                    <div style={{ fontSize: '2rem', marginTop: '1rem' }}>{fillSituation(stage.situation, stage.completedKanyouku)}</div>
+                    <div style={{ fontSize: '2rem', marginTop: '1rem' }}>{fillSituation(stage.situation, stage.completedIdiom)}</div>
                     <div style={{ fontSize: '1.75rem', marginTop: '1.5rem' }}>{stage.explanation}</div>
-                    <div style={{ fontSize: '1.25rem', marginTop: '1rem' }}>{stage.englishExplanation}</div>
+                    <div style={{ fontSize: '1.25rem', marginTop: '1rem' }}>{stage.japaneseExplanation}</div>
                 </div>
             </div>
         )
@@ -458,12 +458,12 @@ export default function Game() {
             <div className={styles.gameScene}>
                 <div className={styles.BG}>
                     <div style={{ position: 'absolute', top: 10, left: 20, right: 20, fontSize: '3rem', color: '#333', display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                        <span>問題 {stage.stageNumber}:</span>
+                        <span>Stage {stage.stageNumber}:</span>
                         <span style={{ fontSize: '1.25rem' }}>{formatTime(gameState.sceneState.timer)}</span>
                     </div>
                     <div style={{ position: 'absolute', top: 65, left: 20, right: 20, fontSize: '1.25rem', color: '#333', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                         <span style={{ fontSize: '2.5rem' }}>{stage.situation}</span>
-                        <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.english}</span>
+                        <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.japanese}</span>
                         {showHint && <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>}
                     </div>
                     <div style={{ position: 'absolute', top: 275, left: 500, right: 20, fontSize: '5rem', color: '#333', display: 'flex', gap: '1rem' }}>
