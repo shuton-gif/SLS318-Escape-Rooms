@@ -15,9 +15,25 @@ type StageData = {
     english: string
     hint: string
     completedKanyouku: string
+    directEnglish?: string
     explanation: string
     englishExplanation: string
     answer: string[]
+}
+
+const HIGHLIGHT_COLOR = '#FF7F50'
+
+function highlight(text: string, target?: string) {
+    if (!target) return text
+    const idx = text.indexOf(target)
+    if (idx < 0) return text
+    return (
+        <>
+            {text.slice(0, idx)}
+            <span style={{ color: HIGHLIGHT_COLOR }}>{target}</span>
+            {text.slice(idx + target.length)}
+        </>
+    )
 }
 
 const roleForIndex = (i: number): Role => ROLES[i % ROLES.length]
@@ -478,7 +494,7 @@ export default function Game() {
             <div className={styles.gameContainer}>
                 <div className={styles.gameScene} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '5rem', backgroundColor: '#2ecc71', color: 'white' }}>
                     <div>Correct!!</div>
-                    <div style={{ fontSize: '2rem', marginTop: '1rem' }}>{stage.situation}</div>
+                    <div style={{ fontSize: '2rem', marginTop: '1rem' }}>{highlight(stage.situation, stage.completedKanyouku)}</div>
                     <div style={{ fontSize: '1.75rem', marginTop: '1.5rem' }}>{stage.explanation}</div>
                     <div style={{ fontSize: '1.25rem', marginTop: '1rem' }}>{stage.englishExplanation}</div>
                 </div>
@@ -489,7 +505,7 @@ export default function Game() {
     if (gameState.sceneState.complete) {
         return (
             <div className={styles.gameContainer}>
-                <div className={styles.gameScene} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem' }}>
+                <div className={styles.gameScene} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
                     All stages cleared at: {formatTime(gameState.sceneState.timer)}!!
                 </div>
             </div>
@@ -505,8 +521,8 @@ export default function Game() {
                         <span style={{ fontSize: '1.25rem' }}>{formatTime(gameState.sceneState.timer)}</span>
                     </div>
                     <div style={{ position: 'absolute', top: 90, left: 20, right: 20, fontSize: '1.25rem', color: '#333', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                        <span style={{ fontSize: '2.5rem' }}>{stage.situation}</span>
-                        <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.english}</span>
+                        <span style={{ fontSize: '2.5rem' }}>{highlight(stage.situation, stage.completedKanyouku)}</span>
+                        <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{highlight(stage.english, stage.directEnglish)}</span>
                         {showHint && <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>}
                     </div>
                     <div style={{ position: 'absolute', top: 275, left: 20, right: 20, fontSize: '2.25rem', color: '#333', display: 'flex', gap: '1rem', justifyContent: 'center' }}>

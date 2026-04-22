@@ -3,8 +3,9 @@
     "stageNumber": "tutorial",
     "situation": "犬のかき氷屋はてんてこ舞いだ。まさに猫の手も借りたい！",
     "english": "The dog's shave ice shop is swamped, even a cat's hand could help!",
-    "hint": "need more labor force",
+    "hint": "so busy you'd take any help",
     "completedKanyouku": "猫の手も借りたい",
+    "directEnglish": "even a cat's hand could help",
     "explanation": "猫の手も借りたい (neko no te mo karitai) = どんな微力でも助けが欲しいほど忙しい",
     "englishExplanation": "to be so busy you'd even take help from a cat (any help at all)",
     "answer": ["need", "any", "help"]
@@ -15,6 +16,7 @@
     "english": "A dog taking a walk around town happened to find a treasure map. Truly, even a dog that walks around will bump into a stick!",
     "hint": "keep moving and you'll find something",
     "completedKanyouku": "犬も歩けば棒に当たる",
+    "directEnglish": "even a dog that walks around will bump into a stick",
     "explanation": "犬も歩けば棒に当たる = 行動すれば思わぬ幸運（または災難）に出会う",
     "englishExplanation": "action brings unexpected luck or trouble",
     "answer": ["action", "brings", "unexpected", "luck"]
@@ -25,6 +27,7 @@
     "english": "This month's allowance is only 100 yen... that's barely a sparrow's tears!",
     "hint": "very little, barely anything",
     "completedKanyouku": "スズメの涙",
+    "directEnglish": "a sparrow's tears",
     "explanation": "スズメの涙 = ほんのわずかな量",
     "englishExplanation": "a sparrow's tears — an extremely small amount",
     "answer": ["just", "a", "tiny", "amount"]
@@ -35,6 +38,7 @@
     "english": "Showing professional cuisine to a boy just starting out as a chef is pointless — truly gold coins to a cat!",
     "hint": "something valuable wasted",
     "completedKanyouku": "猫に小判",
+    "directEnglish": "gold coins to a cat",
     "explanation": "猫に小判 = 価値のわからない者に貴重なものを与えても無駄なこと",
     "englishExplanation": "gold coins to a cat — giving something valuable to someone who can't appreciate it",
     "answer": ["pearls", "before", "swine"]
@@ -45,6 +49,7 @@
     "english": "The final match — both teams evenly matched. Truly a dragon-and-tiger clash!",
     "hint": "two equals going all out",
     "completedKanyouku": "竜虎相打つ",
+    "directEnglish": "dragon-and-tiger clash",
     "explanation": "竜虎相打つ = 実力の伯仲した強者同士が激しく戦うこと",
     "englishExplanation": "dragon and tiger clash — two equally powerful rivals in fierce combat",
     "answer": ["equal", "rivals", "clash", "fiercely"]
