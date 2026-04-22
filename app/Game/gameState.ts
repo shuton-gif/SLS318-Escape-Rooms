@@ -3,15 +3,15 @@ import { toRem } from '../../utils/toRem'
 export type Action = 'up' | 'down' | 'left' | 'right'
     | 'up-left' | 'down-left' | 'up-right' | 'down-right' | 'idle' | 'space'
 
-export type Role = 'S' | 'O' | 'V'
+export type Role = '1' | '2' | '3'
 
 export const ROLE_COLORS: Record<Role, string> = {
-    S: '#03AED2',
-    O: '#FEFD99',
-    V: '#FCB7C7',
+    '1': '#03AED2',
+    '2': '#FEFD99',
+    '3': '#FCB7C7',
 }
 
-export const ROLES: Role[] = ['S', 'O', 'V']
+export const ROLES: Role[] = ['1', '2', '3']
 
 export type Player = {
     id: number
@@ -40,7 +40,7 @@ export type Piece = {
     state: PieceState
 }
 
-export type SubmittedSlots = Record<Role, string[]>
+export type SubmittedSlots = Record<Role, (string | null)[]>
 
 export type BoxFlash = 'none' | 'correct' | 'wrong'
 
@@ -61,7 +61,7 @@ export type GameState = {
 const HEIGHT: number = 70
 const WIDTH: number = 40
 
-export const GROUND_TOP: number = 640
+export const GROUND_TOP: number = 480
 export const PLAYER_Y: number = GROUND_TOP - HEIGHT
 
 // Physics
@@ -71,7 +71,7 @@ export const THROW_VY = -14
 
 // Football-goal-shaped box
 export const BOX = {
-    X: 1350,
+    X: 1000,
     BASE_HEIGHT: 150,
     RIM_WIDTH: 200,
     UPRIGHT_HEIGHT: 50,
@@ -83,11 +83,11 @@ export const BOX = {
 }
 
 // Per-player keybindings. Index matches player id.
-export type Keymap = { left: string; right: string; action: string }
+export type Keymap = { left: string; right: string; action: string; drop: string }
 export const KEYMAPS: Keymap[] = [
-    { left: 'KeyA', right: 'KeyD', action: 'KeyW' },                 // player 0 — S
-    { left: 'KeyB', right: 'KeyM', action: 'KeyH' },                 // player 1 — O
-    { left: 'ArrowLeft', right: 'ArrowRight', action: 'ArrowUp' },   // player 2 — V
+    { left: 'KeyA', right: 'KeyD', action: 'KeyW', drop: 'KeyS' },                         // player 0 — S
+    { left: 'KeyB', right: 'KeyM', action: 'KeyH', drop: 'KeyN' },                         // player 1 — O
+    { left: 'ArrowLeft', right: 'ArrowRight', action: 'ArrowUp', drop: 'ArrowDown' },      // player 2 — V
 ]
 
 const makePlayer = (id: number, type: Role, x: number): Player => ({
@@ -106,12 +106,12 @@ const makePlayer = (id: number, type: Role, x: number): Player => ({
 
 export const initState = (): GameState => ({
     players: [
-        makePlayer(0, 'S', 150),
-        makePlayer(1, 'O', 300),
-        makePlayer(2, 'V', 1050),
+        makePlayer(0, '1', 150),
+        makePlayer(1, '2', 300),
+        makePlayer(2, '3', 850),
     ],
     pieces: [],
-    submittedSlots: { S: [], O: [], V: [] },
+    submittedSlots: { '1': [], '2': [], '3': [] },
     boxFlash: 'none',
     frozen: false,
     sceneState: {

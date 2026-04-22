@@ -28,3 +28,64 @@ petokoto.com
 水を得た魚：得意な場所で生き生きとする。
 猿も木から落ちる：専門家も時には失敗する。
 虎の威を借る狐：他人の力を背景に威張る人
+
+
+type WordProps = {
+    role: "S" | "O" | "V"
+    word: string
+}
+
+
+type StageData = {
+    stageNumber: number | string
+    situation: string
+    english: string
+    hint: string
+    completedKanyouku: string
+    explanation: string
+    englishExplanation: string
+    answer: WordProps[]
+}
+
+
+  {
+    "stageNumber": "tutorial",
+    "situation": "犬のかき氷屋はてんてこ舞いだ。まさに猫の手も借りたい！",
+    "english": "The dog's shave ice shop is swamped, even a cats hand could help!",
+    "hint": "need more labor force",
+    "completedKanyouku": "猫の手も借りたい",
+    "explanation": "猫の手も借りたい (neko no te mo karitai) = どんな微力でも助けが欲しいほど忙しい",
+    "englishExplanation": "to be so busy you'd even take help from a cat (any help at all)",
+    "answer": ["any","help","could","be","nice"]
+  },
+
+from roles im changing to
+
+    "situation": "犬のかき氷屋はてんてこ舞いだ。まさに猫の手も借りたい！",
+    "english": "The dog's shave ice shop is swamped, even a cats hand could help!",
+
+the scentence is fully given from the start
+i want the game to be guessing the meaning of the idiom
+
+change other items in app/Game/ku/stage-examples.json
+
+and the puzzle pieces will now be "answer": ["any","help","could","be","nice"]
+
+export type Role = '1' | '2' | '3'
+
+export const ROLE_COLORS: Record<Role, string> = {
+    1: '#03AED2',
+    2: '#FEFD99',
+    3: '#FCB7C7',
+}
+
+export const ROLES: Role[] = ['1', '2', '3']
+
+the S O V doesnt matter anymore just map 
+1 -> "any"
+2 -> "help"
+3 -> "could"
+1 -> "be"
+2 -> "nice"
+
+

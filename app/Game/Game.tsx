@@ -6,10 +6,8 @@ import {
     initState, BOX, KEYMAPS, GROUND_TOP, GRAVITY, THROW_VX, THROW_VY,
 } from './gameState'
 import Player from '../Player/player'
-import PuzzlePiece, { PIECE_SIZE } from './PuzzlePiece'
+import PuzzlePiece, { PIECE_SIZE, pieceWidth } from './PuzzlePiece'
 import stagesData from './ku/stage-examples.json'
-
-type RoleField = string | string[] | null | undefined
 
 type StageData = {
     stageNumber: number | string
@@ -19,39 +17,40 @@ type StageData = {
     completedKanyouku: string
     explanation: string
     englishExplanation: string
-    roles: { S?: RoleField; O?: RoleField; V?: RoleField }
+    answer: string[]
 }
 
-function toArray(field: RoleField): string[] {
-    if (field == null) return []
-    return Array.isArray(field) ? field : [field]
-}
+const roleForIndex = (i: number): Role => ROLES[i % ROLES.length]
 
-function fillSituation(situation: string, kanyouku: string): string {
-    return situation.replace(/＿＿＿|___/g, kanyouku)
-}
+const targetForRole = (stage: StageData, role: Role): string[] =>
+    stage.answer.filter((_, i) => roleForIndex(i) === role)
 
 const allStages = stagesData as StageData[]
 const tutorialStage = allStages.find((s) => s.stageNumber === 'tutorial')!
 const stages = allStages.filter((s) => typeof s.stageNumber === 'number')
 
 // Scene bounds (same as player clamp)
-const SCENE_MAX_X = 1450
+const SCENE_MAX_X = 1100
 
 function buildPieces(stage: StageData, allStages: StageData[]): Piece[] {
     let id = 0
     const pieces: Piece[] = []
+    stage.answer.forEach((word, i) => {
+        pieces.push({
+            id: id++, word, type: roleForIndex(i),
+            x: 0, y: GROUND_TOP - PIECE_SIZE,
+            vx: 0, vy: 0,
+            state: 'onGround',
+        })
+    })
     for (const role of ROLES) {
-        const correct = toArray(stage.roles[role])
+        const correct = new Set(targetForRole(stage, role))
         const decoyPool = allStages
             .filter((s) => s.stageNumber !== stage.stageNumber)
-            .flatMap((s) => toArray(s.roles[role]))
-            .filter((w) => !correct.includes(w))
-        const decoyCount = correct.length === 0 ? 3 : 2
-        const decoys = shuffle(Array.from(new Set(decoyPool))).slice(0, decoyCount)
-        const words = shuffle([...correct, ...decoys])
-        if (words.length === 0) continue
-        for (const word of words) {
+            .flatMap((s) => targetForRole(s, role))
+            .filter((w) => !correct.has(w))
+        const decoys = shuffle(Array.from(new Set(decoyPool))).slice(0, 2)
+        for (const word of decoys) {
             pieces.push({
                 id: id++, word, type: role,
                 x: 0, y: GROUND_TOP - PIECE_SIZE,
@@ -59,14 +58,14 @@ function buildPieces(stage: StageData, allStages: StageData[]): Piece[] {
                 state: 'onGround',
             })
         }
-        console.log("correct" + `${correct}`)
-        // console.log("wrong" + `${decoyPool}`)
-        console.log("wrong" + `${decoys}`)
     }
     const shuffled = shuffle(pieces)
-    const start = 120
-    const step = 90
-    shuffled.forEach((p, i) => { p.x = start + i * step })
+    let cursor = 120
+    const gap = 20
+    shuffled.forEach((p) => {
+        p.x = cursor
+        cursor += pieceWidth(p.word) + gap
+    })
     return shuffled
 }
 
@@ -86,15 +85,15 @@ const RIM_TOP = GROUND_TOP - BOX.BASE_HEIGHT - BOX.UPRIGHT_HEIGHT
 const RIM_BOTTOM = GROUND_TOP - BOX.BASE_HEIGHT
 
 function isPieceInRim(p: Piece): boolean {
-    const cx = p.x + PIECE_SIZE / 2
+    const cx = p.x + pieceWidth(p.word) / 2
     const cy = p.y + PIECE_SIZE / 2
     return cx >= RIM_LEFT && cx <= RIM_RIGHT && cy >= RIM_TOP && cy <= RIM_BOTTOM
 }
 
 const KEY_LABELS: Record<string, string> = {
-    KeyA: 'A', KeyD: 'D', KeyW: 'W',
-    KeyB: 'B', KeyM: 'M', KeyH: 'H',
-    ArrowLeft: '←', ArrowRight: '→', ArrowUp: '↑',
+    KeyA: 'A', KeyD: 'D', KeyW: 'W', KeyS: 'S',
+    KeyB: 'B', KeyM: 'M', KeyH: 'H', KeyN: 'N',
+    ArrowLeft: '←', ArrowRight: '→', ArrowUp: '↑', ArrowDown: '↓',
 }
 
 export default function Game() {
@@ -129,15 +128,24 @@ export default function Game() {
     }, [gameState.frozen])
 
     useEffect(() => {
+        const makeSlots = (s: StageData) => {
+            const slots: Record<Role, (string | null)[]> = { '1': [], '2': [], '3': [] }
+            for (const role of ROLES) {
+                slots[role] = Array(targetForRole(s, role).length).fill(null)
+            }
+            return slots
+        }
         if (phase === 'tutorial') {
             setGameState((prev) => ({
                 ...prev,
                 pieces: buildPieces(tutorialStage, allStages),
+                submittedSlots: makeSlots(tutorialStage),
             }))
         } else if (phase === 'playing') {
             setGameState((prev) => ({
                 ...prev,
                 pieces: buildPieces(stages[stageIndex], stages),
+                submittedSlots: makeSlots(stages[stageIndex]),
             }))
         }
     }, [phase, stageIndex])
@@ -145,7 +153,7 @@ export default function Game() {
     useEffect(() => {
         if (phase !== 'tutorial' && phase !== 'playing') return
         const allRight = ROLES.every((r) => {
-            const target = toArray(stage.roles[r])
+            const target = targetForRole(stage, r)
             const sub = gameState.submittedSlots[r]
             return sub.length === target.length && sub.every((w, i) => w === target[i])
         })
@@ -175,12 +183,13 @@ export default function Game() {
     useEffect(() => {
         const keysPressed = new Set<string>()
 
-        type KeyKind = 'left' | 'right' | 'action'
+        type KeyKind = 'left' | 'right' | 'action' | 'drop'
         const keyLookup = new Map<string, { id: number; kind: KeyKind }>()
         KEYMAPS.forEach((km, id) => {
             keyLookup.set(km.left, { id, kind: 'left' })
             keyLookup.set(km.right, { id, kind: 'right' })
             keyLookup.set(km.action, { id, kind: 'action' })
+            keyLookup.set(km.drop, { id, kind: 'drop' })
         })
 
         const updateActions = () => {
@@ -207,8 +216,10 @@ export default function Game() {
                 // holding → throw
                 if (player.holding && player.heldPieceId !== null) {
                     const heldId = player.heldPieceId
+                    const heldPiece = prev.pieces.find((p) => p.id === heldId)
+                    const heldW = heldPiece ? pieceWidth(heldPiece.word) : PIECE_SIZE
                     const playerWidthPx = player.width * 16
-                    const startX = player.x + (playerWidthPx - PIECE_SIZE) / 2
+                    const startX = player.x + (playerWidthPx - heldW) / 2
                     const startY = player.y - PIECE_SIZE - 8
                     const vx = player.facing === 'right' ? THROW_VX : -THROW_VX
                     const vy = THROW_VY
@@ -231,11 +242,11 @@ export default function Game() {
                 const candidates = prev.pieces.filter((p) =>
                     p.type === player.type &&
                     p.state === 'onGround' &&
-                    Math.abs((p.x + PIECE_SIZE / 2) - center) < reach
+                    Math.abs((p.x + pieceWidth(p.word) / 2) - center) < reach
                 )
                 if (candidates.length === 0) return prev
                 candidates.sort((a, b) =>
-                    Math.abs((a.x + PIECE_SIZE / 2) - center) - Math.abs((b.x + PIECE_SIZE / 2) - center)
+                    Math.abs((a.x + pieceWidth(a.word) / 2) - center) - Math.abs((b.x + pieceWidth(b.word) / 2) - center)
                 )
                 const target = candidates[0]
                 return {
@@ -243,6 +254,29 @@ export default function Game() {
                     pieces: prev.pieces.map((p) => p.id === target.id ? { ...p, state: 'held' } : p),
                     players: prev.players.map((p) =>
                         p.id === playerId ? { ...p, holding: true, heldPieceId: target.id } : p
+                    ),
+                }
+            })
+        }
+
+        const tryDrop = (playerId: number) => {
+            setGameState((prev) => {
+                const player = prev.players[playerId]
+                if (!player || !player.holding || player.heldPieceId === null) return prev
+                const heldId = player.heldPieceId
+                const heldPiece = prev.pieces.find((p) => p.id === heldId)
+                const heldW = heldPiece ? pieceWidth(heldPiece.word) : PIECE_SIZE
+                const playerWidthPx = player.width * 16
+                const dropX = player.x + (playerWidthPx - heldW) / 2
+                return {
+                    ...prev,
+                    pieces: prev.pieces.map((p) =>
+                        p.id === heldId
+                            ? { ...p, state: 'onGround', x: dropX, y: GROUND_TOP - PIECE_SIZE, vx: 0, vy: 0 }
+                            : p
+                    ),
+                    players: prev.players.map((p) =>
+                        p.id === playerId ? { ...p, holding: false, heldPieceId: null } : p
                     ),
                 }
             })
@@ -263,6 +297,8 @@ export default function Game() {
 
             if (entry.kind === 'action') {
                 tryPickupOrThrow(entry.id)
+            } else if (entry.kind === 'drop') {
+                tryDrop(entry.id)
             } else {
                 updateActions()
             }
@@ -312,11 +348,13 @@ export default function Game() {
 
                     // check rim collision
                     if (isPieceInRim(candidate)) {
-                        const target = toArray(st.roles[piece.type])
+                        const target = targetForRole(st, piece.type)
                         const current = submittedSlots[piece.type]
-                        const nextIdx = current.length
-                        if (nextIdx < target.length && piece.word === target[nextIdx]) {
-                            submittedSlots = { ...submittedSlots, [piece.type]: [...current, piece.word] }
+                        const slot = target.indexOf(piece.word)
+                        if (slot >= 0 && current[slot] == null) {
+                            const next = [...current]
+                            next[slot] = piece.word
+                            submittedSlots = { ...submittedSlots, [piece.type]: next }
                             boxFlash = 'correct'
                             continue
                         } else {
@@ -326,9 +364,10 @@ export default function Game() {
                         }
                     }
 
+                    const pw = pieceWidth(candidate.word)
                     // ground collision
                     if (candidate.y + PIECE_SIZE >= GROUND_TOP) {
-                        const landedX = Math.max(0, Math.min(candidate.x, SCENE_MAX_X - PIECE_SIZE))
+                        const landedX = Math.max(0, Math.min(candidate.x, SCENE_MAX_X - pw))
                         pieces.push({
                             ...candidate,
                             x: landedX,
@@ -340,8 +379,8 @@ export default function Game() {
                     }
 
                     // off-screen sides → also let it land at edge
-                    if (candidate.x < 0 || candidate.x > SCENE_MAX_X - PIECE_SIZE) {
-                        const clampedX = Math.max(0, Math.min(candidate.x, SCENE_MAX_X - PIECE_SIZE))
+                    if (candidate.x < 0 || candidate.x > SCENE_MAX_X - pw) {
+                        const clampedX = Math.max(0, Math.min(candidate.x, SCENE_MAX_X - pw))
                         pieces.push({ ...candidate, x: clampedX })
                         continue
                     }
@@ -430,7 +469,7 @@ export default function Game() {
     }
 
     const stageCleared = ROLES.every((r) => {
-        const target = toArray(stage.roles[r])
+        const target = targetForRole(stage, r)
         const sub = gameState.submittedSlots[r]
         return sub.length === target.length && sub.every((w, i) => w === target[i])
     })
@@ -439,7 +478,7 @@ export default function Game() {
             <div className={styles.gameContainer}>
                 <div className={styles.gameScene} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '5rem', backgroundColor: '#2ecc71', color: 'white' }}>
                     <div>Correct!!</div>
-                    <div style={{ fontSize: '2rem', marginTop: '1rem' }}>{fillSituation(stage.situation, stage.completedKanyouku)}</div>
+                    <div style={{ fontSize: '2rem', marginTop: '1rem' }}>{stage.situation}</div>
                     <div style={{ fontSize: '1.75rem', marginTop: '1.5rem' }}>{stage.explanation}</div>
                     <div style={{ fontSize: '1.25rem', marginTop: '1rem' }}>{stage.englishExplanation}</div>
                 </div>
@@ -470,15 +509,15 @@ export default function Game() {
                         <span style={{ marginTop: '0.625rem', fontSize: '1rem'}}>{stage.english}</span>
                         {showHint && <span style={{ marginTop: '0.625rem' }}>hint: {stage.hint}</span>}
                     </div>
-                    <div style={{ position: 'absolute', top: 275, left: 500, right: 20, fontSize: '5rem', color: '#333', display: 'flex', gap: '1rem' }}>
-                        {ROLES.flatMap((role) => { 
-                            const target = toArray(stage.roles[role])
-                            if (target.length === 0) return []
-                            return target.map((_, i) => (
-                                <span key={`${role}-${i}`} >
-                                    {gameState.submittedSlots[role][i] ?? '＿'}
+                    <div style={{ position: 'absolute', top: 275, left: 20, right: 20, fontSize: '2.25rem', color: '#333', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                        {stage.answer.map((_, i) => {
+                            const role = roleForIndex(i)
+                            const slotIdx = Math.floor(i / ROLES.length)
+                            return (
+                                <span key={i}>
+                                    {gameState.submittedSlots[role][slotIdx] ?? '＿'}
                                 </span>
-                            ))
+                            )
                         })}
                     </div>
                     <Box gameState={gameState} />
@@ -500,43 +539,49 @@ export default function Game() {
 }
 
 function KeyHud({ pressedKeys }: { pressedKeys: Set<string> }) {
+    const keyCap = (code: string, color: string) => {
+        const down = pressedKeys.has(code)
+        return (
+            <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '2.5rem',
+                height: '2.5rem',
+                borderRadius: '0.25rem',
+                border: '2px solid #333',
+                backgroundColor: down ? color : 'transparent',
+                color: '#222',
+                transition: 'background-color 0.1s',
+                fontSize: '1.25rem',
+            }}>
+                {KEY_LABELS[code] ?? code}
+            </span>
+        )
+    }
+    const spacer = <span style={{ width: '2.5rem', height: '2.5rem' }} />
     return (
         <div style={{
             display: 'flex',
             justifyContent: 'space-around',
             alignItems: 'center',
             height: '100%',
-            fontSize: '1.25rem',
         }}>
             {ROLES.map((role, idx) => {
                 const km = KEYMAPS[idx]
-                const keys: { code: string; label: string }[] = [
-                    { code: km.left, label: KEY_LABELS[km.left] ?? km.left },
-                    { code: km.action, label: KEY_LABELS[km.action] ?? km.action },
-                    { code: km.right, label: KEY_LABELS[km.right] ?? km.right },
-                ]
+                const color = ROLE_COLORS[role]
                 return (
-                    <div key={role} style={{ display: 'flex', gap: '0.5rem' }}>
-                        {keys.map((k) => {
-                            const down = pressedKeys.has(k.code)
-                            return (
-                                <span key={k.code} style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    minWidth: '2.5rem',
-                                    padding: '0.25rem 0.75rem',
-                                    borderRadius: '0.25rem',
-                                    border: '2px solid #333',
-                                    backgroundColor: down ? ROLE_COLORS[role] : 'transparent',
-                                    color: '#222',
-                                    transition: 'background-color 0.1s',
-                                    fontSize: '1.25rem',
-                                }}>
-                                    {k.label}
-                                </span>
-                            )
-                        })}
+                    <div key={role} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+                        <div style={{ display: 'flex', gap: '0.25rem' }}>
+                            {spacer}
+                            {keyCap(km.action, color)}
+                            {spacer}
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.25rem' }}>
+                            {keyCap(km.left, color)}
+                            {keyCap(km.drop, color)}
+                            {keyCap(km.right, color)}
+                        </div>
                     </div>
                 )
             })}

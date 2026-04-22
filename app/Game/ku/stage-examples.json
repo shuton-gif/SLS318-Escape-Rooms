@@ -1,73 +1,52 @@
 [
   {
     "stageNumber": "tutorial",
-    "situation": "犬のかき氷屋はてんてこ舞いだ。まさに＿＿＿！",
-    "english": "The dog's shave ice shop is swamped, ___!",
-    "hint": "cat",
+    "situation": "犬のかき氷屋はてんてこ舞いだ。まさに猫の手も借りたい！",
+    "english": "The dog's shave ice shop is swamped, even a cat's hand could help!",
+    "hint": "need more labor force",
     "completedKanyouku": "猫の手も借りたい",
     "explanation": "猫の手も借りたい (neko no te mo karitai) = どんな微力でも助けが欲しいほど忙しい",
     "englishExplanation": "to be so busy you'd even take help from a cat (any help at all)",
-    "roles": {
-      "S": "猫の",
-      "O": "手も",
-      "V": "借りたい"
-    }
+    "answer": ["need", "any", "help"]
   },
   {
     "stageNumber": 1,
-    "situation": "町を散歩していた犬が、偶然にも宝の地図を見つけた。これはまさに＿＿＿だね！",
-    "english": "A dog taking a walk around town happened to find a treasure map. This is truly ___!",
-    "hint": "dog, stick",
+    "situation": "町を散歩していた犬が、偶然にも宝の地図を見つけた。これはまさに犬も歩けば棒に当たるだね！",
+    "english": "A dog taking a walk around town happened to find a treasure map. Truly, even a dog that walks around will bump into a stick!",
+    "hint": "keep moving and you'll find something",
     "completedKanyouku": "犬も歩けば棒に当たる",
-    "explanation": "犬も歩けば棒に当たる (inu mo arukeba bou ni ataru) = 行動すれば思わぬ幸運（または災難）に出会う",
-    "englishExplanation": "even a dog that walks around will bump into a stick — action brings unexpected luck (or trouble)",
-    "roles": {
-      "S": ["犬も", "棒に"],
-      "O": null,
-      "V": ["歩けば", "当たる"]
-    }
+    "explanation": "犬も歩けば棒に当たる = 行動すれば思わぬ幸運（または災難）に出会う",
+    "englishExplanation": "action brings unexpected luck or trouble",
+    "answer": ["action", "brings", "unexpected", "luck"]
   },
   {
     "stageNumber": 2,
-    "situation": "今月のお小遣いはたったの100円…これじゃあ＿＿＿ほどしかないよ！",
-    "english": "This month's allowance is only 100 yen... that's barely ___!",
-    "hint": "sparrow",
+    "situation": "今月のお小遣いはたったの100円…これじゃあスズメの涙ほどしかないよ！",
+    "english": "This month's allowance is only 100 yen... that's barely a sparrow's tears!",
+    "hint": "very little, barely anything",
     "completedKanyouku": "スズメの涙",
-    "explanation": "スズメの涙 (suzume no namida) = ほんのわずかな量",
+    "explanation": "スズメの涙 = ほんのわずかな量",
     "englishExplanation": "a sparrow's tears — an extremely small amount",
-    "roles": {
-      "S": "スズメの",
-      "O": "涙",
-      "V": null
-    }
+    "answer": ["just", "a", "tiny", "amount"]
   },
   {
     "stageNumber": 3,
-    "situation": "料理人を目指す少年に、プロの料理を見せても意味がない。まさに＿＿＿だ！",
-    "english": "Showing professional cuisine to a boy just starting out as a chef is pointless. It's truly ___!",
-    "hint": "cat, gold coins",
+    "situation": "料理人を目指す少年に、プロの料理を見せても意味がない。まさに猫に小判だ！",
+    "english": "Showing professional cuisine to a boy just starting out as a chef is pointless — truly gold coins to a cat!",
+    "hint": "something valuable wasted",
     "completedKanyouku": "猫に小判",
-    "explanation": "猫に小判 (neko ni koban) = 価値のわからない者に貴重なものを与えても無駄なこと",
+    "explanation": "猫に小判 = 価値のわからない者に貴重なものを与えても無駄なこと",
     "englishExplanation": "gold coins to a cat — giving something valuable to someone who can't appreciate it",
-    "roles": {
-      "S": "猫に",
-      "O": "小判",
-      "V": null
-    }
+    "answer": ["pearls", "before", "swine"]
   },
   {
-    "stageNumber": "4",
-    "situation": "決勝戦、両チームの実力は互角。まさに＿＿＿の勝負だ！",
-    "english": "The final match — both teams are evenly matched. It's truly a ___ battle!",
-    "hint": "tiger, dragon",
+    "stageNumber": 4,
+    "situation": "決勝戦、両チームの実力は互角。まさに竜虎相打つ勝負だ！",
+    "english": "The final match — both teams evenly matched. Truly a dragon-and-tiger clash!",
+    "hint": "two equals going all out",
     "completedKanyouku": "竜虎相打つ",
-    "explanation": "竜虎相打つ (ryuuko ai utsu) = 実力の伯仲した強者同士が激しく戦うこと",
+    "explanation": "竜虎相打つ = 実力の伯仲した強者同士が激しく戦うこと",
     "englishExplanation": "dragon and tiger clash — two equally powerful rivals in fierce combat",
-    "roles": {
-      "S": "竜虎",
-      "O": null,
-      "V": ["相打つ"]
-    }
+    "answer": ["equal", "rivals", "clash", "fiercely"]
   }
 ]
-
