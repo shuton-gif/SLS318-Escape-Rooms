@@ -72,11 +72,26 @@ cd $HOME\kanyouku-game
 
 From here on, run every command inside this folder (your terminal prompt should show `kanyouku-game`).
 
-### 2. Install Git
+### 2. Install Homebrew (macOS only)
+
+Homebrew is the package manager we'll use on macOS to install Git and Node.js. If you already have it (check with `brew --version`), skip to step 3.
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+When the install finishes, it will print two `Next steps` commands that add `brew` to your shell — run those exactly as printed (they usually start with `echo` and `eval`). Then close and reopen Terminal, and verify:
+```bash
+brew --version
+```
+
+Windows and Linux users can skip this step.
+
+### 3. Install Git
 
 Git is the tool used to download the project code.
 
-**macOS** (using Homebrew — if you don't have Homebrew, install it from [brew.sh](https://brew.sh) first):
+**macOS** (using Homebrew):
 ```bash
 brew install git
 ```
@@ -98,7 +113,7 @@ Verify:
 git --version
 ```
 
-### 3. Install Node.js
+### 4. Install Node.js
 
 Node.js runs the game. `npm` (used to install the project's parts) comes with it. Use version 20 or newer.
 
@@ -125,7 +140,7 @@ node --version
 npm --version
 ```
 
-### 4. Download the game
+### 5. Download the game
 
 Make sure you are still inside `kanyouku-game` (run `cd ~/kanyouku-game` on macOS/Linux or `cd $HOME\kanyouku-game` on Windows if not). Then:
 
@@ -134,14 +149,14 @@ git clone https://github.com/shuton-gif/SLS318-Escape-Rooms.git
 cd SLS318-Escape-Rooms
 ```
 
-### 5. Install the game's parts
+### 6. Install the game's parts
 
 ```bash
 npm install
 ```
 This can take a couple of minutes. It's normal to see a lot of text scrolling.
 
-### 6. Run the game
+### 7. Run the game
 
 ```bash
 npm run dev
